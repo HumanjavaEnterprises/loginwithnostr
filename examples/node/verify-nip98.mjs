@@ -48,7 +48,7 @@ export function verifyNip98(authorization, expectedUrl, expectedMethod, now = Ma
     // Refuse the same signed event twice inside the window.
     for (const [id, exp] of seen) if (exp < now) seen.delete(id);
     if (seen.has(event.id)) throw new Error('already used');
-    seen.set(event.id, now + WINDOW_SECONDS);
+    seen.set(event.id, event.created_at + WINDOW_SECONDS); // keep it until the event itself expires
 
     return event.pubkey;
 }

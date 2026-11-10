@@ -70,6 +70,6 @@ def verify_nip98(authorization: str, expected_url: str, expected_method: str,
         del _seen[event_id]
     if event.id in _seen:
         raise ValueError("already used")
-    _seen[event.id] = now + WINDOW_SECONDS
+    _seen[event.id] = created_at + WINDOW_SECONDS  # keep it until the event itself expires
 
     return pubkey

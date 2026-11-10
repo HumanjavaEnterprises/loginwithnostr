@@ -37,8 +37,8 @@ Use `data-nostr-login` instead of `id="nostr-login"` for more than one button.
 
 ### Event
 
-`nostr:login` fires once per login. It bubbles from the button's div to
-`document`. `e.detail.pubkey` is the user's public key as 64 lowercase hex
+`nostr:login` fires once per login, on the button's div, and bubbles up to
+`document` while the div is on the page. `e.detail.pubkey` is the user's public key as 64 lowercase hex
 characters.
 
 ## Before you ship
@@ -90,6 +90,10 @@ Ready-made functions that do all of that:
 
 Each returns the verified public key, or fails with a short reason. Start your
 own session (cookie or token) for that key; how long it lasts is up to you.
+
+The examples do not check the optional NIP-98 `payload` tag (a hash of the
+request body). Add that check if your login request carries a body that
+matters.
 
 The used-event list in the examples is kept in memory. If you run more than one
 server, keep it in a shared store such as Redis.

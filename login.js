@@ -112,7 +112,7 @@
         var theme = container.getAttribute('data-theme') || 'dark';
         var size = container.getAttribute('data-size') || '';
         var relay = container.getAttribute('data-relay') || '';
-        var colors = STYLES[theme] || STYLES.dark;
+        var colors = Object.prototype.hasOwnProperty.call(STYLES, theme) ? STYLES[theme] : STYLES.dark;
 
         var btn = document.createElement('button');
         btn.className = 'nostr-login-btn' + (size ? ' ' + size : '');

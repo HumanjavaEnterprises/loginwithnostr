@@ -19,6 +19,12 @@ test('accepts a valid event once, then refuses a replay', async () => {
     assert.throws(() => verifyNip98(h, URL, 'POST', NOW), /already used/);
 });
 
+test('refuses a future-dated event replayed after now moves on', async () => {
+    const { h } = await header({ created_at: NOW + 60 });
+    verifyNip98(h, URL, 'POST', NOW);
+    assert.throws(() => verifyNip98(h, URL, 'POST', NOW + 61), /already used/);
+});
+
 test('refuses tampered content', async () => {
     const { event } = await header();
     assert.throws(() => verifyNip98(enc({ ...event, content: 'x' }), URL, 'POST', NOW), /bad signature/);

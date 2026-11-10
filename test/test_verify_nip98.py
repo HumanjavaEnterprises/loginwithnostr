@@ -41,6 +41,12 @@ class VerifyNip98(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "already used"):
             verify_nip98(enc(ev), URL, "POST", NOW)
 
+    def test_future_dated_replay(self):
+        _, ev = make(created_at=NOW + 60)
+        verify_nip98(enc(ev), URL, "POST", NOW)
+        with self.assertRaisesRegex(ValueError, "already used"):
+            verify_nip98(enc(ev), URL, "POST", NOW + 61)
+
     def test_tampered(self):
         _, ev = make()
         ev["content"] = "x"
